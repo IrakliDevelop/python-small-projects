@@ -12,12 +12,12 @@ def caesar():
                 print("Please select a number between 1 and 3")
                 while choice not in [1,2,3]:
                     choice = int(input("Welcome to Caesar cipher program\nPlease select number of preferable action: \n1)Cipher text\n2)Decipher text\n3)Exit the program\n"))
-            break;
+            break
         except ValueError:
             print("Please enter a number")
             
         
-        #if user wants to exit
+     #if user wants to exit
     if (choice == 3):
         sys.exit()
         
@@ -26,7 +26,7 @@ def caesar():
     while True:
         try:
             key = int(input("Enter the key "))
-            break;
+            break
         except ValueError:
             print("The key in Caesar Cipher must be an integer")
             
@@ -84,5 +84,53 @@ def caesar():
 
 
 
-caesar()
+def vigenere():
+    while True:
+        try:
+            choice = int(input("Welcome to Vigenere cipher program\nPlease select number of preferable action: \n1)Cipher text\n2)Decipher text\n3)Exit the program\n"))
+            
+            if choice not in [1,2,3]:
+                print("Please select a number between 1 and 3")
+                while choice not in [1,2,3]:
+                    choice = int(input("Welcome to Vigenere cipher program\nPlease select number of preferable action: \n1)Cipher text\n2)Decipher text\n3)Exit the program\n"))
+            break
+        except ValueError:
+            print("Please enter a number")
                     
+
+    #if user wants to exit
+    if (choice == 3):
+        sys.exit()
+        
+    text = input("Enter the text: ")
+
+    key = input("Enter the key: ")
+
+    #key validation
+
+    
+    if not validateVigenereKey(key):
+        while not validateVigenereKey(key):
+            print("The key in Vigenere cipher must only contain alphabetical characters!!!")
+            key = input("Enter the key: ")
+
+
+    keyLength = len(key)
+
+    
+
+
+
+vigenere()
+
+def validateVigenereKey(key):
+    validKey = True
+
+    for i in key:
+        if i.isalpha or i == " ":
+            continue
+        else:
+            validKey = False
+            break
+
+    return validKey
