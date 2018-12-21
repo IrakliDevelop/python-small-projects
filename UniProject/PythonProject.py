@@ -1,4 +1,5 @@
 import sys
+from random import randint
 
 
 dict_vigenere = {"a" : 1, "b" : 2, "c" : 3, "d" : 4, "e" : 5, "f" : 6, "g" : 7, "h" : 8, "i" : 9, "j" : 10, "k" : 11, "l" : 12, "m" : 13, "n" : 14, "o" : 15, "p" : 16, "q" : 17, "r" : 18, "s" : 19, "t" : 20, "u" : 21, "v" : 22, "w" : 23, "x" : 24, "y" : 25, "z" : 26}
@@ -19,7 +20,7 @@ def caesar():
             print("Please enter a number")
             
         
-     #if user wants to exit
+    #if user wants to exit
     if (choice == 3):
         sys.exit()
         
@@ -36,6 +37,8 @@ def caesar():
     newString = ""
     key = key % 26
     
+
+    #cipher
     if choice == 1:
         for i in text:
             if i.isalpha():
@@ -58,7 +61,7 @@ def caesar():
             
         print("ciphered text: ", newString)
         
-        
+    #decipher    
     if choice == 2:
         for i in text:
             if i.isalpha():
@@ -209,4 +212,68 @@ def vigenere():
 
         print("Deciphered text: " + newString)
 
+
+def otp():
+    while True:
+        try:
+            choice = int(input("Welcome to OTP(One-Time-Pad) cipher program\nPlease select number of preferable action: \n1)Cipher text\n2)Decipher text\n3)Exit the program\n"))
+            
+            if choice not in [1,2,3]:
+                print("Please select a number between 1 and 3")
+                while choice not in [1,2,3]:
+                    choice = int(input("Welcome to OTP(One-Time-Pad) cipher program\nPlease select number of preferable action: \n1)Cipher text\n2)Decipher text\n3)Exit the program\n"))
+            break
+        except ValueError:
+            print("Please enter a number")
+
+
+    #if user wants to exit
+    if (choice == 3):
+        sys.exit()
+        
+    text = input("Enter the text: ")
+
+    keySequence = list()
+    newString = ""
+
+
+
+
+    '''
+    ======================================================
+    Since OTP cipher is much similar in implementation to Caesar (besides random generated keys) I copy-pasted some of Caesars code here
+    ======================================================
+    '''
+
+    #cipher
+    if choice == 1:
+        for i in text:
+            if i.isalpha():
+                key = randint(1, 26)
+                tmp = i
+                #for uppercase
+                if i.isupper():
+                    if ord(tmp) + key > 90:
+                        tmp = chr(64 + (key - (90 - ord(tmp) ) ) )
+                #for lowecase
+                if i.islower():
+                    if ord(tmp) + key > 122:
+                        tmp = chr(96 + (key - (122 - ord(tmp) ) ) )
+                    else:
+                        tmp = chr(ord(tmp) + key)
+                keySequence.append(key)
+                i = tmp
+            newString += i
+    
+        print("ciphered text: ", newString)
+        print("Key Sequence: ", keySequence)
+
+
+    #decipher
+    
+
+
+
+
+otp()
 
