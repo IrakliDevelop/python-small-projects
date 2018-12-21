@@ -1,8 +1,10 @@
 import sys
 
 
+dict_vigenere = {"a" : 1, "b" : 2, "c" : 3, "d" : 4, "e" : 5, "f" : 6, "g" : 7, "h" : 8, "i" : 9, "j" : 10, "k" : 11, "l" : 12, "m" : 13, "n" : 14, "o" : 15, "p" : 16, "q" : 17, "r" : 18, "s" : 19, "t" : 20, "u" : 21, "v" : 22, "w" : 23, "x" : 24, "y" : 25, "z" : 26}
 
 
+#CAESAR CIPHER
 def caesar():
     while True:
         try:
@@ -39,13 +41,15 @@ def caesar():
             if i.isalpha():
                 tmp = i
                 #for uppercase
-                if ord(tmp) + key > 90 and ord(tmp) + key < 97:
-                    tmp = chr(64 + (key - (90 - ord(tmp) ) ) )
+                if i.isupper():
+                    if ord(tmp) + key > 90:
+                        tmp = chr(64 + (key - (90 - ord(tmp) ) ) )
                 #for lowecase
-                elif ord(tmp) + key > 122:
-                    tmp = chr(96 + (key - (122 - ord(tmp) ) ) )
-                else:
-                    tmp = chr(ord(tmp) + key)
+                if i.islower():
+                    if ord(tmp) + key > 122:
+                        tmp = chr(96 + (key - (122 - ord(tmp) ) ) )
+                    else:
+                        tmp = chr(ord(tmp) + key)
                 
                 i = tmp
             newString += i
@@ -62,13 +66,13 @@ def caesar():
                 #for uppercase
                 if i.isupper():
                     if ord(tmp) - key < 65:
-                        tmp = chr(91 - (key + (ord(tmp) - 65 ) ) )
+                        tmp = chr(91 - (key - (ord(tmp) - 65 ) ) )
                     else:
                         tmp = chr(ord(tmp) - key)
                 #for lowecase
                 if i.islower():
                     if ord(tmp) - key < 97:
-                        tmp = chr(123 - (key + (ord(tmp) -97 ) ) )
+                        tmp = chr(123 - (key - (ord(tmp) - 97 ) ) )
                     else:
                         tmp = chr(ord(tmp) - key)
                 
@@ -80,8 +84,28 @@ def caesar():
         print("deciphered text: ", newString)
 
 
-    
 
+
+
+
+
+
+
+
+    
+#VIGENERE CIPHER
+
+def validateVigenereKey(key):
+    validKey = True
+
+    for i in key:
+        if i.isalpha or i == " ":
+            continue
+        else:
+            validKey = False
+            break
+
+    return validKey
 
 
 def vigenere():
@@ -116,21 +140,73 @@ def vigenere():
 
 
     keyLength = len(key)
+    newString = ""
 
-    
+    #inner counter
+    j = 0
+
+    #cipher
+    if choice == 1:
+        for i in text:
+            if i.isalpha():
+                #check for space non alphabetical character in key
+                if not key[j].isalpha():
+                    while not key[j].isalpha():
+                        j+=1
+                        if j == keyLength:
+                            j=0
+                tmp = i
+                #for uppercase
+                if i.isupper():
+                    if ord(tmp) + dict_vigenere[key[j].lower()] > 90:
+                        tmp = chr(64 + (dict_vigenere[key[j].lower()] - (90 - ord(tmp) ) ) )
+                #for lowecase
+                if i.islower():
+                    if ord(tmp) + dict_vigenere[key[j].lower()] > 122:
+                        tmp = chr(96 + (dict_vigenere[key[j].lower()] - (122 - ord(tmp) ) ) )
+                    else:
+                        tmp = chr(ord(tmp) + dict_vigenere[key[j].lower()])
+                
+                i = tmp
+                j+=1
+                if j == keyLength:
+                    j=0
+            newString += i
 
 
+        print("ciphered text: " + newString)
 
-vigenere()
 
-def validateVigenereKey(key):
-    validKey = True
+    #decipher
+    if choice == 2:
+        for i in text:
+            if i.isalpha():
+                tmp = i
+                #check for space non alphabetical character in key
+                if not key[j].isalpha():
+                    j+=1
+                    if j == keyLength:
+                        j=0
+                #for uppercase
+                if i.isupper():
+                    if ord(tmp) - dict_vigenere[key[j].lower()] < 65:
+                        tmp = chr(91 - (dict_vigenere[key[j].lower()] - (ord(tmp) - 65 ) ) )
+                    else:
+                        tmp = chr(ord(tmp) - dict_vigenere[key[j].lower()])
+                #for lowecase
+                if i.islower():
+                    if ord(tmp) - dict_vigenere[key[j].lower()] < 97:
+                        tmp = chr(123 - (dict_vigenere[key[j].lower()] - (ord(tmp) - 97 ) ) )
+                    else:
+                        tmp = chr(ord(tmp) - dict_vigenere[key[j].lower()])
+                
+                i = tmp
+                j+=1
+                if j == keyLength:
+                    j=0
+            newString += i
 
-    for i in key:
-        if i.isalpha or i == " ":
-            continue
-        else:
-            validKey = False
-            break
 
-    return validKey
+        print("Deciphered text: " + newString)
+
+
