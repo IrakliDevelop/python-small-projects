@@ -270,10 +270,61 @@ def otp():
 
 
     #decipher
+    if choice == 2:
+        keySequence = list(map(int, input("Please enter the key sequence. For OTP you need to enter as much keys as you have letters in the text: ").split()))
+        #initialize list counter
+        j = 0
+        for i in text:
+            if i.isalpha():
+                tmp = i
+                #for uppercase
+                if i.isupper():
+                    if ord(tmp) - keySequence[j] < 65:
+                        tmp = chr(91 - (keySequence[j] - (ord(tmp) - 65 ) ) )
+                    else:
+                        tmp = chr(ord(tmp) - keySequence[j])
+                #for lowecase
+                if i.islower():
+                    if ord(tmp) - keySequence[j] < 97:
+                        tmp = chr(123 - (keySequence[j] - (ord(tmp) - 97 ) ) )
+                    else:
+                        tmp = chr(ord(tmp) - keySequence[j])
+                
+                i = tmp
+                j+=1
+            newString += i
+            
+            
+            
+        print("deciphered text: ", newString)
     
 
 
 
 
-otp()
+def program():
+    while True:
+        try:
+            choice = int(input("Welcome to ciphering program\nSelect the needed ciphering technique:\n1)Caesar Cipher\n2)Vigenere Cipher\n3)OTP (One-Time-Pad) Cipher\n4)Quit\n"))
+            if choice == 1:
+                caesar()
+            elif choice == 2:
+                vigenere()
+            elif choice == 3:
+                otp()
+            elif choice == 4:
+                sys.exit()
+            else:
+                print("SOMETHING WENT WRONG")
+            break
+        except ValueError:
+            print("PLEASE ENTER VALID INDEX!!!")
+    
 
+
+
+
+
+
+
+program()
